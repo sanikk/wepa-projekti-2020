@@ -28,7 +28,7 @@ public class UserController {
     
     @GetMapping("/users")
     public String list(Model model, @RequestParam(defaultValue = "0") Integer page) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("nimi").descending());
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("name").descending());
         model.addAttribute("kayttajat", kaytrepo.findAll(pageable));
         return "kayttajat";
     }
