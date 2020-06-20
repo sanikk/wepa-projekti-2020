@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Postaukset</title>
+    </head>
+    <body>
+    <h3>Lisää uusi</h3>
+    <form th:action="@{/postaus}" method="POST">
+        <input type="text" name="sisalto" />
+        <input type="submit" value="Lähetä"/>
+    </form>
+    <ul>
+        <li th:each="posti: ${postaukset}">
+            <a th:ref="@{/postaus/{id}(id=${posti.id})}">
+                <span th:text="${posti.sisalto}">postin sisältö</span>
+            </a>
+        </li>
+    </ul>
+    </body>
+</html>
