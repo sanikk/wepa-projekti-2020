@@ -1,6 +1,7 @@
 package projekti.controllers;
 
 import java.util.ArrayList;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ public class AccountController {
         return "register";
     }
 
+    @Transactional
     @PostMapping("/register")
     public String add(@RequestParam String username, @RequestParam String password, @RequestParam String profile) {
         if (kayttajaRepository.findByProfile(profile) != null) {
@@ -42,13 +44,14 @@ public class AccountController {
         }
         //tehdään uusi käyttäjä tiedoilla, tallennetaan se accoon
         Kayttaja uusi = new Kayttaja(username, password, profile, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-kayttajaRepository.save(uusi);
+        kayttajaRepository.save(uusi);
         if (accountRepository.findByUsername(username) != null) {
             return "redirect:/register";
         }
 
         Account a = new Account(username, passwordEncoder.encode(password), profile, uusi);
         accountRepository.save(a);
+        //linkataan vielä uuteen
         uusi.setAccount(a);
         kayttajaRepository.save(uusi);
         return "redirect:/register";

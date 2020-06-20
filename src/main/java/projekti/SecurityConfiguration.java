@@ -14,7 +14,7 @@ import projekti.Services.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@Order(1000)
+@Order(10)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Autowired

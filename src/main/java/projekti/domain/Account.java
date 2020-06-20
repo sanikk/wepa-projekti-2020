@@ -18,6 +18,7 @@ public class Account extends AbstractPersistable<Long>{
     private String username;
     private String password;
     private String profile;
+    //väärin päin hallinta?
     @OneToOne
     private Kayttaja kayttaja;
 }
