@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:replace="fragments/layout :: head" lang="en">
+        <meta charset="UTF-8" />
+        <title>Find user</title>
+    </head>
+    <body>
+        <div th:replace="fragments/layout :: upperPart" />
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <div th:replace="fragments/layout :: keskiOsaVasen" />
+                </div>
+                <div class="col-10"> <!-- main view -->
+                    <img src="/media/image/${loggedIn.picid}" />
+                    <p>Current profile picture</p>
+
+                    <h3>Change profile picture</h3>
+                    <form method="POST" action="/media/image" enctype="multipart/form-data">
+                        <input type="file" name="file" id="file"/>
+                        <input type="submit" value="Add!"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

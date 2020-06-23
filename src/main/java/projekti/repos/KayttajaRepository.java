@@ -23,5 +23,7 @@ public interface KayttajaRepository extends JpaRepository<Kayttaja, Long>{
     //Kayttaja findByNameAndUsername(String name, String username);
     
     Kayttaja findByProfile(String profile);
+    Kayttaja findByUsername(String username);
+    List<Kayttaja> findByNameContainingIgnoreCase(String name);
     
 }

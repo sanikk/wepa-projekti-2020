@@ -3,6 +3,7 @@ package projekti.controllers;
 import java.util.ArrayList;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,8 @@ public class AccountController {
 
     @GetMapping("/register")
     public String list(Model model) {
+        Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("loggedIn", loggedIn);
         model.addAttribute("accounts", accountRepository.findAll());
         return "register";
     }
@@ -43,13 +46,13 @@ public class AccountController {
             return "redirect:/register";
         }
         //tehdään uusi käyttäjä tiedoilla, tallennetaan se accoon
-        Kayttaja uusi = new Kayttaja(username, password, profile, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        Kayttaja uusi = new Kayttaja(name, username, password, profile, null, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), null, new ArrayList<>());
         kayttajaRepository.save(uusi);
         if (accountRepository.findByUsername(username) != null) {
             return "redirect:/register";
         }
 
-        Account a = new Account(name,username, passwordEncoder.encode(password), profile, uusi);
+        Account a = new Account(username, passwordEncoder.encode(password), profile, uusi);
         accountRepository.save(a);
         //linkataan vielä uuteen
         uusi.setAccount(a);

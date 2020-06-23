@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:replace="fragments/layout :: head" lang="en">
+        <meta charset="UTF-8" />
+        <title>Muh linkedin</title>
+    </head>
+    <body>
+        <div th:replace="fragments/layout :: upperPart" />
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <div th:replace="fragments/layout :: keskiOsaVasen" />
+                </div>
+                <div class="col-10">
+                    <h3><span th:text="${kayttaja.username}">username</span>'s homepage</h3>
+                    <img src="/media/image/${kayttaja.picid}" alt="no pic"/>
+                    <br/>
+                    Name: <span th:text="${kayttaja.name}">name</span><br/>
+                    Username: <span th:text="${kayttaja.username}">username</span><br/>
+                    Profile: /users/<span th:text="${kayttaja.profile}">profile url</span><br/>
+                    <h4>Skillz:</h4>
+                    <ol>
+                        <li th:each="taito : ${taidot}">
+                            <span th:text="${taito.name}">taito</span>
+                        </li>
+                    </ol>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -22,7 +22,8 @@ public class Kayttaja extends AbstractPersistable<Long> {
 
     
 
-    //private String name;
+    private String name;
+    @Column(unique=true)
     private String username;
     private String password;
     @Column(unique=true)
@@ -31,17 +32,22 @@ public class Kayttaja extends AbstractPersistable<Long> {
     private Account account;
     
     //yhteydet muihin käyttäjiin -- katso minne/miten pyynnöt
+    //@OneToMany(mappedBy = "fromUser")
+    //private List<Contact> kontaktit;
+    
     @ManyToMany
-    private List<Kayttaja> pyynnot;
+    private List<Kayttaja> hyvaksytyt;
+    @ManyToMany(mappedBy = "itseEhdotetut")
+    private List<Kayttaja> muidenEhdottamat;
     @ManyToMany
-    private List<Kayttaja> vahvistetut;
+    private List<Kayttaja> itseEhdotetut;
     
     //taidot
     @OneToMany(mappedBy = "kayttaja")
     private List<Taito> taidot;
     
-    //profiilikuva
-    //kuva kuva
+    //profiilikuva -- haetaan id perusteella
+    private Long picid;
     
     //postaukset
     @OneToMany(mappedBy = "lahettaja")

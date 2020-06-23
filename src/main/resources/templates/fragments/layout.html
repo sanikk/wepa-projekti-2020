@@ -23,9 +23,14 @@
 
                     <div sec:authorize="isAuthenticated()">
                         <a href="/users" class="col">Find users</a>
+<!--                        
                         <a href="/images" class="col">Images</a>
-                        <a href="/users/" + <sec:authentication property="principal.username" class="col"/>Homepage</a>
-                        <a href="/images/upload" class="col">Upload a picture</a>
+-->
+<!--
+                        <a href="/users/" + sec:authentication property="principal.profile" class="col"/>Homepage</a>
+-->
+                        <a th:href="@{/users/{profile}(profile=${loggedIn.profile})}">Home page</a>
+                        <a href="/media/image" class="col">Upload a picture</a>
                         <a href="/logout" class="col">Logout as <span sec:authentication="name"></span></a>
                     </div>
                 </div>
@@ -50,19 +55,7 @@
                         </div>
                     </div>
                     <div class="col-8">
-                        <div th:fragment="keskiOsaEtsi">
-
-                            <form th:action="@{/users/find}" method="POST" enctype="multipart/form-data">
-                                What to search for? 
-                                <input type="text" name="userToFind" />
-                                <input type="submit" value="Send!"/>
-                            </form>
-                            Results:
-                            <li th:each="msg : ${msgView}" >
-                                <span th:text="${msg}">kokoString</span>
-                            </li>
-
-                        </div>
+                        
                     </div>
 
 

@@ -13,12 +13,36 @@
                 </div>
                 <div class="col-10">
                     <h3>User accounts</h3>
-                    <div th:replace="fragments/layout :: keskiOsaEtsi" />
-                    <ol>
+                    <form th:action="@{/users}" method="POST" enctype="multipart/form-data">
+                        What to search for? 
+                        <input type="text" name="nameToFind" />
+                        <input type="submit" value="Send!"/>
+                    </form>
+                    <!--
+                                        Results:
+                                                <li th:each="msg : ${msgView}" >
+                                                    <span th:text="${msg}">kokoString</span>
+                                                </li>
+                    -->
+                    <ul>
                         <li th:each="kayttaja : ${kayttajat}">
-                            <span th:text="${kayttaja.username}">msg</span>
+                            <a th:href="@{/users/{profile}(profile=${kayttaja.profile})}"><span th:text="${kayttaja.name}">msg</span></a>
+                            <form th:if="${kayttaja.kick}" method="POST" th:action="@{/users/blah/{username}(username=${kayttaja.username})}">
+                                <button type="submit" name="submit">kick</button>
+                            </form>
+                            <!--                            
+                                                        <button th:if="${kayttaja.kick}" onclick="">kick</button>
+                            -->
+                            <button th:if="${kayttaja.accept}">confirm</button>
+                            <button th:if="${kayttaja.cancel}">deny</button>
+                            <form th:if="${kayttaja.propose}" method="POST" th:action="@{/users/add/{username}(username=${kayttaja.username})}">
+                                <button type="submit" name="submit">add</button>
+                            </form>
+<!--                            
+                            <button th:if="${kayttaja.propose}">add</button>
+-->
                         </li>
-                    </ol>
+                    </ul>
                 </div>
             </div>
         </div>

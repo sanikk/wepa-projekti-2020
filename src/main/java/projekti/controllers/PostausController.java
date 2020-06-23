@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ import projekti.repos.PostausRepository;
 public class PostausController {
 
     @Autowired
-    private KayttajaRepository kaytrepo;
+    private KayttajaRepository kayttajaRepository;
     @Autowired
     private PostausRepository postrepo;
     @Autowired
@@ -40,6 +41,8 @@ public class PostausController {
 
     @GetMapping("/postaukset")
     public String list(Model model, @RequestParam(defaultValue = "0") Integer page) {
+        Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("loggedIn", loggedIn);
         Pageable pageable = PageRequest.of(page, 25, Sort.by("lahetysaika").descending());
         //tehdään Collection jossa on kontaktit ja käyttäjä itse, ja katsotaan löytyykö kokoelmasta
         List<Kayttaja> kokoelma = new ArrayList<>();
