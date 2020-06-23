@@ -42,6 +42,7 @@ public class UserController {
                 if (loggedIn.getHyvaksytyt().contains(k)) {
                     muokattu.add(new FoundUser(k.getName(), k.getUsername(), k.getProfile(), true, false, false, false));
                 } else if (loggedIn.getItseEhdotetut().contains(k)) {
+                    System.out.println("ping");
                     muokattu.add(new FoundUser(k.getName(), k.getUsername(), k.getProfile(), false, false, true, false));
                 } else if (loggedIn.getMuidenEhdottamat().contains(k)) {
                     muokattu.add(new FoundUser(k.getName(), k.getUsername(), k.getProfile(), false, true, false, false));
@@ -89,7 +90,7 @@ public class UserController {
     public String accept(@PathVariable String username) {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Kayttaja k = kayttajaRepository.findByUsername(username);
-        if (k.equals(loggedIn) || loggedIn.getHyvaksytyt().contains(k) || loggedIn.getItseEhdotetut().contains(k) || loggedIn.getMuidenEhdottamat().contains(k)) {
+        if (k.equals(loggedIn) || loggedIn.getHyvaksytyt().contains(k) || loggedIn.getItseEhdotetut().contains(k) || !loggedIn.getMuidenEhdottamat().contains(k)) {
             return "redirect:/users";
         }
         loggedIn.getHyvaksytyt().add(k);
@@ -104,7 +105,7 @@ public class UserController {
     public String deny(@PathVariable String username) {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Kayttaja k = kayttajaRepository.findByUsername(username);
-        if (k.equals(loggedIn) || loggedIn.getHyvaksytyt().contains(k) || loggedIn.getItseEhdotetut().contains(k) || loggedIn.getMuidenEhdottamat().contains(k)) {
+        if (k.equals(loggedIn) || loggedIn.getHyvaksytyt().contains(k) || loggedIn.getItseEhdotetut().contains(k) || !loggedIn.getMuidenEhdottamat().contains(k)) {
             return "redirect:/users";
         }
         loggedIn.getMuidenEhdottamat().remove(k);
@@ -117,11 +118,24 @@ public class UserController {
     public String cancel(@PathVariable String username) {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Kayttaja k = kayttajaRepository.findByUsername(username);
-        if (k.equals(loggedIn) || loggedIn.getHyvaksytyt().contains(k) || loggedIn.getItseEhdotetut().contains(k) || loggedIn.getMuidenEhdottamat().contains(k)) {
+        if (k.equals(loggedIn) || loggedIn.getHyvaksytyt().contains(k) || !loggedIn.getItseEhdotetut().contains(k) || loggedIn.getMuidenEhdottamat().contains(k)) {
             return "redirect:/users";
         }
         loggedIn.getItseEhdotetut().remove(k);
         k.getMuidenEhdottamat().remove(loggedIn);
+        return "redirect:/users";
+    }
+
+    @Transactional
+    @PostMapping("/users/kick/{username}")
+    public String kick(@PathVariable String username) {
+        Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Kayttaja k = kayttajaRepository.findByUsername(username);
+        if (k.equals(loggedIn) || !loggedIn.getHyvaksytyt().contains(k)) {
+            return "redirect:/users";
+        }
+        loggedIn.getHyvaksytyt().remove(k);
+        k.getHyvaksytyt().remove(loggedIn);
         return "redirect:/users";
     }
 }

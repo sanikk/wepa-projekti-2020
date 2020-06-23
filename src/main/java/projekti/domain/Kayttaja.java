@@ -1,8 +1,10 @@
 package projekti.domain;
 
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -34,15 +36,18 @@ public class Kayttaja extends AbstractPersistable<Long> {
     //yhteydet muihin käyttäjiin -- katso minne/miten pyynnöt
     //@OneToMany(mappedBy = "fromUser")
     //private List<Contact> kontaktit;
-    
+    @Basic(fetch = FetchType.LAZY)
     @ManyToMany
     private List<Kayttaja> hyvaksytyt;
+    @Basic(fetch = FetchType.LAZY)
     @ManyToMany(mappedBy = "itseEhdotetut")
     private List<Kayttaja> muidenEhdottamat;
+    @Basic(fetch = FetchType.LAZY)
     @ManyToMany
     private List<Kayttaja> itseEhdotetut;
     
     //taidot
+    @Basic(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "kayttaja")
     private List<Taito> taidot;
     
@@ -50,6 +55,7 @@ public class Kayttaja extends AbstractPersistable<Long> {
     private Long picid;
     
     //postaukset
+    @Basic(fetch = FetchType.LAZY)
     @OneToMany(mappedBy = "lahettaja")
     private List<Postaus> postaukset;
 

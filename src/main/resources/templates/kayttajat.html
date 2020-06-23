@@ -24,25 +24,32 @@
                                                     <span th:text="${msg}">kokoString</span>
                                                 </li>
                     -->
-                    <ul>
-                        <li th:each="kayttaja : ${kayttajat}">
-                            <a th:href="@{/users/{profile}(profile=${kayttaja.profile})}"><span th:text="${kayttaja.name}">msg</span></a>
-                            <form th:if="${kayttaja.kick}" method="POST" th:action="@{/users/blah/{username}(username=${kayttaja.username})}">
-                                <button type="submit" name="submit">kick</button>
-                            </form>
-                            <!--                            
-                                                        <button th:if="${kayttaja.kick}" onclick="">kick</button>
-                            -->
-                            <button th:if="${kayttaja.accept}">confirm</button>
-                            <button th:if="${kayttaja.cancel}">deny</button>
-                            <form th:if="${kayttaja.propose}" method="POST" th:action="@{/users/add/{username}(username=${kayttaja.username})}">
-                                <button type="submit" name="submit">add</button>
-                            </form>
-<!--                            
-                            <button th:if="${kayttaja.propose}">add</button>
--->
-                        </li>
-                    </ul>
+                    <table>
+                        <tr th:each="kayttaja : ${kayttajat}">
+                            <td>
+                                <a th:href="@{/users/{profile}(profile=${kayttaja.profile})}"><span th:text="${kayttaja.name}">name</span></a>
+                            </td>
+                            <td>
+                                <form th:if="${kayttaja.kick}" method="POST" th:action="@{/users/kick/{username}(username=${kayttaja.username})}">
+                                    <button type="submit" name="submit">kick</button>
+                                </form>
+                                <form th:if="${kayttaja.accept}" method="POST" th:action="@{/users/accept/{username}(username=${kayttaja.username})}">
+                                    <button type="submit" name="submit">accept</button>
+                                </form>
+                                <form th:if="${kayttaja.cancel}" method="POST" th:action="@{/users/cancel/{username}(username=${kayttaja.username})}">
+                                    <button type="submit" name="submit">cancel</button>
+                                </form>
+                                <form th:if="${kayttaja.propose}" method="POST" th:action="@{/users/add/{username}(username=${kayttaja.username})}">
+                                    <button type="submit" name="submit">add</button>
+                                </form>
+                            </td>
+                            <td th:if="${kayttaja.accept}">
+                                <form method="POST" th:action="@{/users/deny/{username}(username=${kayttaja.username})}">
+                                    <button type="submit" name="submit">deny</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
