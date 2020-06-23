@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:replace="fragments/layout :: head" lang="en">
         <meta charset="UTF-8" />
         <title>Register a new account</title>
     </head>
     <body>
-        
-        <h2>Accounts</h2>
+        <div th:replace="fragments/layout :: upperPart" />
+<!--        <h2>Accounts</h2>
         <ol>
             <li th:each="account : ${accounts}">
                 <span th:text="${account.username}">msg</span>
             </li>
         </ol>
-
+-->
         <h2>Register a new account</h2>
 
         <form method="POST" th:action="@{/register}">
+            name: <input type="text" name="name" />
             username: <input type="text" name="username"/>
             password: <input type="password" name="password"/>
             profile name: <input type="text" name="profile" />

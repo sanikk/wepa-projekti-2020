@@ -2,19 +2,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
     <head th:replace="fragments/layout :: head" lang="en">
         <meta charset="UTF-8" />
-        <title>Muh linkedin</title>
+        <title>Find user</title>
     </head>
     <body>
         <div th:replace="fragments/layout :: upperPart" />
-        <!--        
-        <a href="/postaukset">Postaukset</a>
-        -->
         <div class="container">
             <div class="row">
                 <div class="col-2">
                     <div th:replace="fragments/layout :: keskiOsaVasen" />
                 </div>
+                <div class="col-10">
+                    <h3>User accounts</h3>
+                    <div th:replace="fragments/layout :: keskiOsaEtsi" />
+                    <ol>
+                        <li th:each="kayttaja : ${kayttajat}">
+                            <span th:text="${kayttaja.username}">msg</span>
+                        </li>
+                    </ol>
+                </div>
             </div>
         </div>
+
+
     </body>
-</html>

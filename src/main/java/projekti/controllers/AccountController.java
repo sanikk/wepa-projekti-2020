@@ -38,7 +38,7 @@ public class AccountController {
 
     @Transactional
     @PostMapping("/register")
-    public String add(@RequestParam String username, @RequestParam String password, @RequestParam String profile) {
+    public String add(@RequestParam String name, @RequestParam String username, @RequestParam String password, @RequestParam String profile) {
         if (kayttajaRepository.findByProfile(profile) != null) {
             return "redirect:/register";
         }
@@ -49,7 +49,7 @@ public class AccountController {
             return "redirect:/register";
         }
 
-        Account a = new Account(username, passwordEncoder.encode(password), profile, uusi);
+        Account a = new Account(name,username, passwordEncoder.encode(password), profile, uusi);
         accountRepository.save(a);
         //linkataan vielä uuteen
         uusi.setAccount(a);

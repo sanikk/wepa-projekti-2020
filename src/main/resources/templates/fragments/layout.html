@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:fragment="head" lang="en">
+        <meta charset="UTF-8" />
+        <title>Muh linkedin</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <style>
+            .fakeimg {
+                height: 200px;
+                background: #aaa;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div th:fragment="upperPart" class="jumbotron text-center">
+            <h1>Wanhan kansan LinkedIn</h1>
+            <div class="container">
+                <div class="row">
+                    <a href="/register" sec:authorize="isAnonymous()" class="col">Register new user</a>
+                    <a href="/login" sec:authorize="isAnonymous()" class="col">Login as existing user</a>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <a href="/users" class="col">Find users</a>
+                        <a href="/images" class="col">Images</a>
+                        <a href="/users/" + <sec:authentication property="principal.username" class="col"/>Homepage</a>
+                        <a href="/images/upload" class="col">Upload a picture</a>
+                        <a href="/logout" class="col">Logout as <span sec:authentication="name"></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:fragment="keskiOsa">
+            <div class="container">
+                <div class="row">
+                    <div class="col-2">
+                        <div th:fragment="keskiOsaVasen">
+
+                            <div th:with="ehto = ${kayttajakuva == none}">
+                                <div th:if="${ehto}" class="fakeimg">Fake Image</div>
+                                <img src=${kayttajakuva} th:unless="${ehto}"/>
+                            </div>
+                            Username: <span sec:authentication="name"></span>
+                            <div sec:authorize="isAuthenticated()">
+                                <a href="/images">Kuvat</a><br />
+                                <a href="/followers">Seuraajat</a> <br />
+                                <a href="/followed">Seuratut</a> <br />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div th:fragment="keskiOsaEtsi">
+
+                            <form th:action="@{/users/find}" method="POST" enctype="multipart/form-data">
+                                What to search for? 
+                                <input type="text" name="userToFind" />
+                                <input type="submit" value="Send!"/>
+                            </form>
+                            Results:
+                            <li th:each="msg : ${msgView}" >
+                                <span th:text="${msg}">kokoString</span>
+                            </li>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+    </body>
+</html>
+
