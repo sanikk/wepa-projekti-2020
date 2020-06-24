@@ -42,7 +42,6 @@ public class UserController {
                 if (loggedIn.getHyvaksytyt().contains(k)) {
                     muokattu.add(new FoundUser(k.getName(), k.getUsername(), k.getProfile(), true, false, false, false));
                 } else if (loggedIn.getItseEhdotetut().contains(k)) {
-                    System.out.println("ping");
                     muokattu.add(new FoundUser(k.getName(), k.getUsername(), k.getProfile(), false, false, true, false));
                 } else if (loggedIn.getMuidenEhdottamat().contains(k)) {
                     muokattu.add(new FoundUser(k.getName(), k.getUsername(), k.getProfile(), false, true, false, false));

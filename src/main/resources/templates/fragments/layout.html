@@ -23,12 +23,13 @@
 
                     <div sec:authorize="isAuthenticated()">
                         <a href="/users" class="col">Find users</a>
-<!--                        
-                        <a href="/images" class="col">Images</a>
--->
-<!--
-                        <a href="/users/" + sec:authentication property="principal.profile" class="col"/>Homepage</a>
--->
+                        <!--                        
+                                                <a href="/images" class="col">Images</a>
+                        -->
+                        <!--
+                                                <a href="/users/" + sec:authentication property="principal.profile" class="col"/>Homepage</a>
+                        -->
+                        <a th:href="@{/contacts}">Contacts</a>
                         <a th:href="@{/users/{profile}(profile=${loggedIn.profile})}">Home page</a>
                         <a href="/media/image" class="col">Upload a picture</a>
                         <a href="/logout" class="col">Logout as <span sec:authentication="name"></span></a>
@@ -55,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-8">
-                        
+
                     </div>
 
 

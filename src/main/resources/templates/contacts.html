@@ -12,29 +12,32 @@
                     <div th:replace="fragments/layout :: keskiOsaVasen" />
                 </div>
                 <div class="col-10">
-                    <h3>User accounts</h3>
-                    <form th:action="@{/users}" method="POST" enctype="multipart/form-data">
-                        What to search for? 
-                        <input type="text" name="nameToFind" />
-                        <input type="submit" value="Send!"/>
-                    </form>
+                    <h3><span th:text="${loggedIn.username}">username</span>'s contacts</h3><br/>
+                    <h4>Confirmed:</h4>
                     <table>
-                        <tr th:each="kayttaja : ${kayttajat}">
+                        <tr th:each="kayttaja : ${accepted}">
                             <td>
                                 <a th:href="@{/users/{profile}(profile=${kayttaja.profile})}"><span th:text="${kayttaja.name}">name</span></a>
                             </td>
                             <td>
-                                <form th:if="${kayttaja.kick}" method="POST" th:action="@{/users/kick/{username}(username=${kayttaja.username})}">
+                                <form method="POST" th:action="@{/users/kick/{username}(username=${kayttaja.username})}">
                                     <button type="submit" name="submit">kick</button>
                                 </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <h4>Waiting approval:</h4>
+                    <table>
+                        <tr th:each="kayttaja : ${waiting}">
+                            <td>
+                                <a th:href="@{/users/{profile}(profile=${kayttaja.profile})}"><span th:text="${kayttaja.name}">name</span></a>
+                            </td>
+                            <td>
                                 <form th:if="${kayttaja.accept}" method="POST" th:action="@{/users/accept/{username}(username=${kayttaja.username})}">
                                     <button type="submit" name="submit">accept</button>
                                 </form>
                                 <form th:if="${kayttaja.cancel}" method="POST" th:action="@{/users/cancel/{username}(username=${kayttaja.username})}">
                                     <button type="submit" name="submit">cancel</button>
-                                </form>
-                                <form th:if="${kayttaja.propose}" method="POST" th:action="@{/users/add/{username}(username=${kayttaja.username})}">
-                                    <button type="submit" name="submit">add</button>
                                 </form>
                             </td>
                             <td th:if="${kayttaja.accept}">
@@ -47,6 +50,5 @@
                 </div>
             </div>
         </div>
-
-
     </body>
+</html>

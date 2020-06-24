@@ -30,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/postaukset").authenticated()
                 .antMatchers(HttpMethod.POST, "/postaukset").authenticated()
+                .antMatchers(HttpMethod.GET, "/contacts").authenticated()
                 .antMatchers(HttpMethod.GET, "/users/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/users").authenticated()
                 .antMatchers(HttpMethod.POST, "/users/**").authenticated()
