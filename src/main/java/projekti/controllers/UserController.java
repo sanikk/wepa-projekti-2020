@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import projekti.domain.FoundUser;
 import projekti.domain.Kayttaja;
+import projekti.domain.Taito;
 import projekti.repos.KayttajaRepository;
 
 /**
@@ -58,7 +59,11 @@ public class UserController {
     public String showOne(Model model, @PathVariable String profile) {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("loggedIn", loggedIn);
-        model.addAttribute("kayttaja", kayttajaRepository.findByProfile(profile));
+        Kayttaja k = kayttajaRepository.findByProfile(profile);
+        model.addAttribute("kayttaja", k);
+        List<Taito> taidot = k.getTaidot();
+        taidot.sort(null);
+        model.addAttribute("taidot", taidot);
         return "homepage";
     }
 

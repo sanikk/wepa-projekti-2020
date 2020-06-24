@@ -48,7 +48,7 @@ public class Kayttaja extends AbstractPersistable<Long> {
     
     //taidot
     @Basic(fetch = FetchType.LAZY)
-    @OneToMany(mappedBy = "kayttaja")
+    @ManyToMany
     private List<Taito> taidot;
     
     //profiilikuva -- haetaan id perusteella

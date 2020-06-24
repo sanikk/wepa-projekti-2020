@@ -18,12 +18,35 @@
                     Name: <span th:text="${kayttaja.name}">name</span><br/>
                     Username: <span th:text="${kayttaja.username}">username</span><br/>
                     Profile: /users/<span th:text="${kayttaja.profile}">profile url</span><br/>
-                    <h4>Skillz:</h4>
-                    <ol>
-                        <li th:each="taito : ${taidot}">
-                            <span th:text="${taito.name}">taito</span>
-                        </li>
-                    </ol>
+                    <h4>Skills:</h4>
+                    <form th:if="${kayttaja.equals(loggedIn)}" th:action="@{/skills/add}" method="POST" enctype="multipart/form-data">
+                        Skill to add:<input type="text" name="name" />
+                        <input type="submit" value="Send!"/>
+                    </form>
+                    <table>
+                        <tr th:each="taito : ${taidot}">
+                            <td>
+                                <span th:text="${taito.name}">taito</span>
+                            </td>
+                            <td>
+                                <form th:unless="${kayttaja.equals(loggedIn)}" th:if="${taito.tykkaykset.contains(loggedIn)}" method="POST" th:action="@{/skills/dislike/{id}(id=${taito.id})}">
+                                    <button type="submit" name="submit">dislike</button>
+                                </form>
+                                <form th:unless="${taito.tykkaykset.contains(loggedIn) or kayttaja.equals(loggedIn)}" method="POST" th:action="@{/skills/like/{id}(id=${taito.id})}">
+                                    <button type="submit" name="submit">like</button>
+                                </form>
+                            </td>
+                            <td>
+                                Likes:<span th:text="${taito.tykkaykset.size()}">nro</span>
+                            </td>
+                            <td th:if="${kayttaja.equals(loggedIn)}">
+                                <form th:method="delete" th:action="@{/skills/{id}(id=${taito.id})}">
+                                    <button type="submit" name="submit">delete</button>
+                                </form>
+                            </td>
+                            
+                        </tr>
+                    </table>
 
                 </div>
             </div>
