@@ -1,9 +1,11 @@
 package projekti.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,5 +26,6 @@ public class Postaus extends AbstractPersistable<Long>{
     private Kayttaja lahettaja;
     private LocalDateTime lahetysaika;
     private String sisalto;
-    //private List<Kayttaja> tykkaykset;
+    @ManyToMany
+    private List<Kayttaja> tykkaykset;
 }

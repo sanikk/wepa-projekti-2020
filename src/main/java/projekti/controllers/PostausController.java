@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import projekti.domain.Kayttaja;
@@ -45,13 +45,25 @@ public class PostausController {
         return "postaukset";
     }
 
-    //hyvää matskua päiväämisestä @3.07, tuo muunnos on kait vähän turha, tai jotain
     @PostMapping("/posts")
     public String newPost(@RequestParam String sisalto) {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         LocalDateTime aikaleima = LocalDateTime.now();
-        Postaus p = new Postaus(loggedIn, aikaleima, sisalto);
+        Postaus p = new Postaus(loggedIn, aikaleima, sisalto, new ArrayList<>());
         postrepo.save(p);
+        return "redirect:/posts";
+    }
+    
+    @PostMapping("/posts/{command}/{id}")
+    public String likeDislike(@PathVariable String command, @PathVariable Long id) {
+        Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Postaus posti = postrepo.getOne(id);
+        if(command.equals("like") && !posti.getTykkaykset().contains(loggedIn)) {
+               posti.getTykkaykset().add(loggedIn);
+        } else if(command.equals("unlike") && posti.getTykkaykset().contains(loggedIn)) {
+                posti.getTykkaykset().remove(loggedIn);
+        }
+        postrepo.save(posti);
         return "redirect:/posts";
     }
 }

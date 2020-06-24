@@ -1,7 +1,9 @@
 package projekti.domain;
 
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor @AllArgsConstructor
 public class Taito extends AbstractPersistable<Long> implements Comparable<Taito>{
 
+    @Basic(fetch = FetchType.LAZY)
     @ManyToOne
     private Kayttaja kayttaja;
     private String name;
