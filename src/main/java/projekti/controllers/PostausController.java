@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package projekti.controllers;
 
 import java.time.LocalDateTime;
@@ -44,17 +39,15 @@ public class PostausController {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("loggedIn", loggedIn);
         Pageable pageable = PageRequest.of(page, 25, Sort.by("lahetysaika").descending());
-        //tehdään Collection jossa on kontaktit ja käyttäjä itse, ja katsotaan löytyykö kokoelmasta
-        List<Kayttaja> kokoelma = new ArrayList<>();
-        //eli haetaan jotenkin käyttäjä, ja sitten käyttäjän kaverit, ja tungetaan tänne
-        model.addAttribute("postaukset", postrepo.findAll(pageable));
+        List<Kayttaja> kokoelma = loggedIn.getHyvaksytyt();
+        kokoelma.add(loggedIn);
+        model.addAttribute("postaukset", postrepo.findByLahettajaIn(kokoelma, pageable));
         return "postaukset";
     }
 
     //hyvää matskua päiväämisestä @3.07, tuo muunnos on kait vähän turha, tai jotain
     @PostMapping("/posts")
     public String newPost(@RequestParam String sisalto) {
-        System.out.println(sisalto);
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         LocalDateTime aikaleima = LocalDateTime.now();
         Postaus p = new Postaus(loggedIn, aikaleima, sisalto);

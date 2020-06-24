@@ -49,11 +49,13 @@
                                 <img src=${kayttajakuva} th:unless="${ehto}"/>
                             </div>
                             Username: <span sec:authentication="name"></span>
+<!--
                             <div sec:authorize="isAuthenticated()">
                                 <a href="/images">Kuvat</a><br />
                                 <a href="/followers">Seuraajat</a> <br />
                                 <a href="/followed">Seuratut</a> <br />
                             </div>
+-->
                         </div>
                     </div>
                     <div class="col-8">

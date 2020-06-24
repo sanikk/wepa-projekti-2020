@@ -3,7 +3,6 @@
     <head th:replace="fragments/layout :: head" lang="en">
         <meta charset="UTF-8" />
         <title>Postaukset</title>
-        <link href="./resources/css/postaukset.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
         <div th:replace="fragments/layout :: upperPart" />
@@ -14,12 +13,12 @@
                 </div>
                 <div class="col-10">
                     <h3>Lisää uusi</h3>
-                    <form th:action="@{/posts}" method="POST">
-                        <input type="text" name="sisalto" />
+                    <form th:action="@{/posts}" method="POST" style="width: 100%">
+                        <input type="text" name="sisalto" style="width: 90%" />
                         <input type="submit" value="Lähetä"/>
                     </form>
                     <table id="t01" style="border: 2px solid black">
-                        <tr th:each="posti: ${postaukset}" style="2px solid black">
+                        <tr th:each="posti: ${postaukset}" style="border: 2px solid black">
                             <td style="border: 1px solid black">
                                 <span th:text="${posti.lahettaja.name}">nimi</span> on <span th:text="${posti.lahetysaika}">aika</span>: 
                             </td>
