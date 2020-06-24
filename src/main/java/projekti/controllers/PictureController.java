@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,11 +44,14 @@ public class PictureController {
         return "image";
     }
 
+    @Transactional
     @PostMapping("/media/image")
     public String sendImage(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.getContentType().matches("image/png|image/jpg|image/jpeg")) {
             ProfileImage p = new ProfileImage(file.getBytes());
-            profileImageRepository.save(p);
+            p = profileImageRepository.save(p);
+            Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            loggedIn.setPicid(p.getId());
         }
         return "redirect:/";
     }

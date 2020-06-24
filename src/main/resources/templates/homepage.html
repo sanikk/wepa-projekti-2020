@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-10">
                     <h3><span th:text="${kayttaja.username}">username</span>'s homepage</h3>
-                    <img src="/media/image/${kayttaja.picid}" alt="no pic"/>
+                    <img th:src="@{/media/image/{id}(id=${kayttaja.picid})}" alt="no pic"/>
                     <br/>
                     Name: <span th:text="${kayttaja.name}">name</span><br/>
                     Username: <span th:text="${kayttaja.username}">username</span><br/>
@@ -24,7 +24,7 @@
                             <span th:text="${taito.name}">taito</span>
                         </li>
                     </ol>
-                    
+
                 </div>
             </div>
         </div>

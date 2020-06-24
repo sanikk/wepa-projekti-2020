@@ -12,7 +12,7 @@
                     <div th:replace="fragments/layout :: keskiOsaVasen" />
                 </div>
                 <div class="col-10"> <!-- main view -->
-                    <img src="/media/image/${loggedIn.picid}" />
+                    <img th:src="@{/media/image/{id}(id=${loggedIn.picid})}" alt="no pic"/>
                     <p>Current profile picture</p>
 
                     <h3>Change profile picture</h3>
