@@ -1,9 +1,9 @@
 package projekti.domain;
 
 import java.time.LocalDateTime;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,11 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor @AllArgsConstructor
 public class Kommentti extends AbstractPersistable<Long>{
     //@Basic(fetch = FetchType.LAZY)
-    //private Kayttaja kommentoija;
+
+    @ManyToOne
+    private Kayttaja kommentoija;
+    @ManyToOne
+    private Postaus posti;
     private LocalDateTime lahetysaika;
     private String sisalto;
 }

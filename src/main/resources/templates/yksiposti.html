@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:replace="fragments/layout :: head" lang="en">
+        <meta charset="UTF-8" />
+        <title>Find user</title>
+    </head>
+    <body>
+        <div th:replace="fragments/layout :: upperPart" />
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <div th:replace="fragments/layout :: keskiOsaVasen" />
+                </div>
+                <div class="col-10">
+                    <h4 th:text="${posti.sisalto}">posti</h4>
+                    Sent by <span th:text="${posti.lahettaja.name}">lähettäjä</span> on <span th:text="${#temporals.format(posti.lahetysaika, 'dd-MM-yyyy HH:mm')}">aika</span>
+                    <br/>
+                    <form th:action="@{/posts/{id}(id=${posti.id})}" method="POST" style="width: 100%">
+                        <input type="text" name="sisalto" style="width: 80%" />
+                        <input type="submit" value="Send"/>
+                    </form>
+                    <ul>
+                        <li th:each="kommentti : ${kommentit}" >
+                            <span th:text="${kommentti.sisalto}">kommentti</span><br/>
+                            Commented by <span th:text="${kommentti.kommentoija.name}">kommentoija</span> on <span th:text="${#temporals.format(kommentti.lahetysaika, 'dd-MM-yyyy HH:mm')}">aika</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

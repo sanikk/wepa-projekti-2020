@@ -19,9 +19,9 @@
                     </form>
                     <br/>
                     <table id="t01" style="border: 2px solid black; width: 100%">
-                        <tbody th:each="posti: ${postaukset}" style="border: 2px solid black">
+                        <tbody th:each="posti: ${postaukset}" style="border: 5px solid black">
                             <tr style="border: 2px solid black">
-                                <td style="border: 1px solid black" colspan="3">
+                                <td style="border: 1px solid black" colspan="4">
                                     <a th:ref="@{/postaus/{id}(id=${posti.id})}">
                                         <span th:text="${posti.sisalto}">postin sisältö</span>
                                     </a>
@@ -29,17 +29,28 @@
                             </tr>
                             <tr style="border: 1px solid black">
                                 <td style="width: 50%;border: 1px solid black">
-                                    Sent by <span th:text="${posti.lahettaja.name}">nimi</span> on <span th:text="${#temporals.format(posti.lahetysaika, 'dd-MM-yyyy HH:mm')}">aika</span> 
+                                    Sent by <span th:text="${posti.lahettaja.name}">nimi</span> on <span th:text="${#temporals.format(posti.lahetysaika, 'dd-MM-yyyy HH:mm')}">aika</span>
                                 </td>
-                                <td style="width: 25%;border: 1px solid black">
+                                <td style="width: 15%;border: 1px solid black">
                                     Likes <span th:text="${posti.tykkaykset.size()}">nro</span>
                                 </td>
-                                <td style="width: 25%;border: 1px solid black">
+                                <td style="width: 15%;border: 1px solid black">
+                                    <a th:href="@{/posts/{id}(id=${posti.id})}">Comments <span th:text="${posti.kommentit.size()}">nro</span></a>
+                                </td>
+                                <td style="width: 20%;border: 1px solid black">
                                     <form th:if="${posti.tykkaykset.contains(loggedIn)}" th:unless="${posti.lahettaja.equals(loggedIn)}" method="POST" th:action="@{/posts/unlike/{id}(id=${posti.id})}">
                                         <button  type="submit" name="submit">Unlike</button>
                                     </form>
                                     <form th:unless="${posti.tykkaykset.contains(loggedIn) or posti.lahettaja.equals(loggedIn)}" method="POST" th:action="@{/posts/like/{id}(id=${posti.id})}">
                                         <button  type="submit" name="submit">Like</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr style="border: 2px solid black">
+                                <td colspan="4">
+                                    <form th:action="@{/posts/{id}(id=${posti.id})}" method="POST" style="width: 100%">
+                                        <input type="text" name="sisalto" style="width: 80%" />
+                                        <input type="submit" value="Send"/>
                                     </form>
                                 </td>
                             </tr>

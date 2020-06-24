@@ -20,15 +20,8 @@
                 <div class="row">
                     <a href="/register" sec:authorize="isAnonymous()" class="col">Register new user</a>
                     <a href="/login" sec:authorize="isAnonymous()" class="col">Login as existing user</a>
-
                     <div sec:authorize="isAuthenticated()">
                         <a href="/users" class="col">Find users</a>
-                        <!--                        
-                                                <a href="/images" class="col">Images</a>
-                        -->
-                        <!--
-                                                <a href="/users/" + sec:authentication property="principal.profile" class="col"/>Homepage</a>
-                        -->
                         <a th:href="@{/contacts}">Contacts</a>
                         <a th:href="@{/users/{profile}(profile=${loggedIn.profile})}">Home page</a>
                         <a href="/media/image" class="col">Upload a picture</a>
@@ -43,30 +36,18 @@
                 <div class="row">
                     <div class="col-2">
                         <div th:fragment="keskiOsaVasen">
-
                             <div th:with="ehto = ${kayttajakuva == none}">
                                 <div th:if="${ehto}" class="fakeimg">Fake Image</div>
                                 <img src=${kayttajakuva} th:unless="${ehto}"/>
                             </div>
-                            Username: <span sec:authentication="name"></span>
-<!--
-                            <div sec:authorize="isAuthenticated()">
-                                <a href="/images">Kuvat</a><br />
-                                <a href="/followers">Seuraajat</a> <br />
-                                <a href="/followed">Seuratut</a> <br />
-                            </div>
--->
+                            User: <span sec:authentication="name"></span>
                         </div>
                     </div>
                     <div class="col-8">
-
                     </div>
-
-
                 </div>
             </div>
             <div class="row">
-
             </div>
         </div>
     </body>
