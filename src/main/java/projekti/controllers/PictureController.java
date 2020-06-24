@@ -32,6 +32,7 @@ public class PictureController {
 
     @GetMapping(path = "/media/image/{id}", produces = {"image/png", "image/jpg", "image/jpeg"})
     @ResponseBody
+    @Transactional
     public byte[] getImage(@PathVariable Long id) {
         return profileImageRepository.getOne(id).getContent();
     }
@@ -52,6 +53,7 @@ public class PictureController {
             p = profileImageRepository.save(p);
             Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             loggedIn.setPicid(p.getId());
+            kayttajaRepository.save(loggedIn);
         }
         return "redirect:/";
     }
