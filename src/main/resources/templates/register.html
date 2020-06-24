@@ -6,13 +6,7 @@
     </head>
     <body>
         <div th:replace="fragments/layout :: upperPart" />
-<!--        <h2>Accounts</h2>
-        <ol>
-            <li th:each="account : ${accounts}">
-                <span th:text="${account.username}">msg</span>
-            </li>
-        </ol>
--->
+        <div style="margin: auto; width: 50%; border: 3px solid green; padding: 10px;">
         <h2>Register a new account</h2>
 
         <form method="POST" th:action="@{/register}">
@@ -22,6 +16,7 @@
             profile name: <input type="text" name="profile" /><br/>
             <input type="submit" value="Add new account!"/>
         </form>
+        </div>
     </body>
 </html>
 
