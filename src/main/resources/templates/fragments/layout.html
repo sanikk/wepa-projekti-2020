@@ -32,6 +32,7 @@
                         <a th:href="@{/contacts}">Contacts</a>
                         <a th:href="@{/users/{profile}(profile=${loggedIn.profile})}">Home page</a>
                         <a href="/media/image" class="col">Upload a picture</a>
+                        <a th:href="@{/posts}">Posts</a>
                         <a href="/logout" class="col">Logout as <span sec:authentication="name"></span></a>
                     </div>
                 </div>

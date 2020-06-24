@@ -1,20 +1,37 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:replace="fragments/layout :: head" lang="en">
+        <meta charset="UTF-8" />
         <title>Postaukset</title>
+        <link href="./resources/css/postaukset.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-    <h3>Lisää uusi</h3>
-    <form th:action="@{/postaus}" method="POST">
-        <input type="text" name="sisalto" />
-        <input type="submit" value="Lähetä"/>
-    </form>
-    <ul>
-        <li th:each="posti: ${postaukset}">
-            <a th:ref="@{/postaus/{id}(id=${posti.id})}">
-                <span th:text="${posti.sisalto}">postin sisältö</span>
-            </a>
-        </li>
-    </ul>
+        <div th:replace="fragments/layout :: upperPart" />
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <div th:replace="fragments/layout :: keskiOsaVasen" />
+                </div>
+                <div class="col-10">
+                    <h3>Lisää uusi</h3>
+                    <form th:action="@{/posts}" method="POST">
+                        <input type="text" name="sisalto" />
+                        <input type="submit" value="Lähetä"/>
+                    </form>
+                    <table id="t01" style="border: 2px solid black">
+                        <tr th:each="posti: ${postaukset}" style="2px solid black">
+                            <td style="border: 1px solid black">
+                                <span th:text="${posti.lahettaja.name}">nimi</span> on <span th:text="${posti.lahetysaika}">aika</span>: 
+                            </td>
+                            <td style="border: 1px solid black">
+                                <a th:ref="@{/postaus/{id}(id=${posti.id})}">
+                                    <span th:text="${posti.sisalto}">postin sisältö</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

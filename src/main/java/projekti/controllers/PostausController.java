@@ -39,7 +39,7 @@ public class PostausController {
     @Autowired
     private KommenttiRepository komrepo;
 
-    @GetMapping("/postaukset")
+    @GetMapping("/posts")
     public String list(Model model, @RequestParam(defaultValue = "0") Integer page) {
         Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         model.addAttribute("loggedIn", loggedIn);
@@ -52,9 +52,13 @@ public class PostausController {
     }
 
     //hyvää matskua päiväämisestä @3.07, tuo muunnos on kait vähän turha, tai jotain
-    @PostMapping("/postaukset")
-    public String newPost(@RequestParam Kayttaja kayttaja, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDateTime examDate, @RequestParam String sisalto) {
-        Postaus p = new Postaus(kayttaja, examDate, sisalto);
-        return "redirect:/postaukset";
+    @PostMapping("/posts")
+    public String newPost(@RequestParam String sisalto) {
+        System.out.println(sisalto);
+        Kayttaja loggedIn = kayttajaRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        LocalDateTime aikaleima = LocalDateTime.now();
+        Postaus p = new Postaus(loggedIn, aikaleima, sisalto);
+        postrepo.save(p);
+        return "redirect:/posts";
     }
 }
